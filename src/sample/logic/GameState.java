@@ -20,12 +20,6 @@ public class GameState {
     }
 
 
-
-
-
-
-
-
     private int[][] generateMap() {
         Random rnd = new Random();
         int[][] map = new int[WIDTH][HEIGHT];
@@ -33,7 +27,7 @@ public class GameState {
             for (int j = 0; j < WIDTH - i; j++) {
                 map[i][j] = 0;
                 if (rnd.nextInt(4) == 0) {
-                    int cellValue = rnd.nextInt(10) ;
+                    int cellValue = rnd.nextInt(10);
                     map[i][j] = cellValue;
                     map[HEIGHT - i - 1][WIDTH - j - 1] = cellValue;
                 }
@@ -47,7 +41,14 @@ public class GameState {
     }
 
     public int[][] getMap() {
-        return map.clone();
+        int[][] cloneMap = new int[WIDTH][HEIGHT];
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                cloneMap[i][j] = map[i][j];
+            }
+
+        }
+        return cloneMap;
     }
 
     public int getTimeToEnd() {
