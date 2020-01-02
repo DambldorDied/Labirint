@@ -140,6 +140,11 @@ public class Game {
             System.out.println();
 
         }
+        Field fieldWithScore1 = gameState.getClass().getDeclaredField("team1Score");
+        fieldWithScore1.set(gameState, sum1);
+        Field fieldWithScore2 = gameState.getClass().getDeclaredField("team2Score");
+        fieldWithScore2.set(gameState, sum2);
+
         System.out.println();
         System.out.println();
         timerTick();

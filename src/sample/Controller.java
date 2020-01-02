@@ -14,8 +14,8 @@ import sample.logic.Game;
 
 public class Controller {
 
-    LabirintPlayer yourBot = new PassiveLabirintBot();
-    LabirintPlayer testBot = new VolkLabirintBot();
+    LabirintPlayer yourBot = new VolkLabirintBot();
+    LabirintPlayer testBot = new PassiveLabirintBot();
 
     @FXML
     private Pane mainPane;
@@ -59,9 +59,11 @@ public class Controller {
                     if (!endFlagUI) {
                         game.tick();
                     }
-                } catch (NoSuchFieldException | IllegalAccessException e) {
+                }
+                catch (NoSuchFieldException | IllegalAccessException e) {
                     e.printStackTrace();
-                } catch (RuntimeException e) {
+                }
+                catch (RuntimeException e) {
                     Platform.runLater(() -> {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setHeaderText(e.getClass().getSimpleName());
@@ -74,15 +76,25 @@ public class Controller {
                 refreshUI();
                 try {
                     Thread.sleep(500);
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("И перед нами победителЬ");
-                alert.setContentText(game.getGameState().getTeam1Score() > game.getGameState().getTeam2Score() ?
-                        game.getTeam1().getTeamName() : game.getTeam2().getTeamName());
+                alert.setHeaderText("И перед нами победитель");
+                String winnerName = "";
+
+                if (game.getGameState().getTeam1Score() > game.getGameState().getTeam2Score()) {
+                    winnerName = game.getTeam1().getTeamName();
+                } else {
+                    winnerName = game.getTeam2().getTeamName();
+                }
+                if (game.getGameState().getTeam1Score() == game.getGameState().getTeam2Score()) {
+                    winnerName = "Ничья";
+                }
+                alert.setContentText(winnerName);
                 alert.showAndWait();
                 System.exit(-1);
             });
