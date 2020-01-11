@@ -7,7 +7,7 @@ import sample.logic.GameState;
 
 import java.util.*;
 
-public class UltimateBot implements LabirintPlayer {
+public class SemiUltimateBot implements LabirintPlayer {
 
     private int mynumber;
     private int enemyNumber;
@@ -138,25 +138,21 @@ public class UltimateBot implements LabirintPlayer {
             }
         }
         dirStrategies.add(simplePath);
-        /* sheet random path generation */
 
+        /* non complete generation */
         if (simplePath.size() > 1) {
-            int abuseCount = 0;
             List<Direction> oneMoreSwaped = new ArrayList<>(simplePath);
-            for (int i = 0; i < 10000; i++) {
-                if (abuseCount > 5) {
-                    break;
-                }
-                oneMoreSwaped = new ArrayList<>(oneMoreSwaped);
-                int randomIndex = new Random().nextInt(oneMoreSwaped.size() - 1);
-                Direction removedDir = oneMoreSwaped.get(randomIndex);
-                oneMoreSwaped.remove(randomIndex);
-                oneMoreSwaped.add(removedDir);
-                if (!dirStrategies.contains(oneMoreSwaped)) {
-                    dirStrategies.add(oneMoreSwaped);
-                    abuseCount = 0;
-                } else {
-                    abuseCount++;
+            for (int i = 0; i < simplePath.size(); i++) {
+                for (int j = i; j < simplePath.size(); j++) {
+                    oneMoreSwaped = new ArrayList<>(oneMoreSwaped);
+                    int randomIndex = new Random().nextInt(oneMoreSwaped.size() - 1);
+                    Direction removedDir = oneMoreSwaped.get(j);
+                    oneMoreSwaped.remove(j);
+                    oneMoreSwaped.add(removedDir);
+                    if (!dirStrategies.contains(oneMoreSwaped)) {
+                        dirStrategies.add(oneMoreSwaped);
+
+                    }
                 }
             }
         }
@@ -240,7 +236,7 @@ public class UltimateBot implements LabirintPlayer {
     }
 
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
-        LabirintPlayer ultimateBot = new UltimateBot();
+        LabirintPlayer ultimateBot = new SemiUltimateBot();
         LabirintPlayer volk = new LawandaLabirintBot();
 
         int myWinCount = 0;
